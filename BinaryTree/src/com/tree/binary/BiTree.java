@@ -2,6 +2,7 @@ package com.tree.binary;
 
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.Stack;
 /**
  * 二叉树的创建，先序、中序、后序、层次序遍历
  * @author Jing*/
@@ -55,6 +56,31 @@ public class BiTree {
 		preOrderTraverse(r.lChild);
 		preOrderTraverse(r.rChild);
 	}
+	
+	/**非递归先序遍历*/
+	public void preOrder(BiTreeNode r) {
+
+		
+		/*由于先被访问的节点的右子树是被后访问的，所以借用栈来实现非递归遍历
+		 * 每次访问某个节点之后，将其入栈，然后去寻找它的左孩子，一直添加左孩子到节点为空
+		 * 此时，所有左子树的根节点已经入栈
+		 * 如果栈非空，则证明有些节点的右孩子还未访问
+		 * 那么，依次出栈，找到栈顶元素的右孩子，这又是一棵树的根，
+		 * 所以，需要重复刚才左孩子入栈的动作，继续将该节点的所有左孩子入栈，直到孩子为空*/
+		Stack<BiTreeNode> stack = new Stack<>();
+		BiTreeNode temp = r;
+		while( temp != null || !stack.isEmpty() ) {
+			while(temp != null) {
+				visit(temp);
+				stack.push(temp);
+				temp=temp.lChild;
+			}
+
+			if(!stack.isEmpty()) {
+				temp=stack.pop().rChild;
+			}
+		}
+	}
 	/**递归中序遍历*/
 	public void inOrderTraverse(BiTreeNode r) {
 		if(r==null) 
@@ -92,6 +118,19 @@ public class BiTree {
 		}
 		
 	}
+
+	
+    public int TreeDepth(BiTreeNode root) {
+    	if(root == null) {
+    		return 0;
+    	}
+    	
+        int l=TreeDepth(root.lChild);
+        int r=TreeDepth(root.rChild);
+        return l>=r?(l+1):(r+1);
+      
+    }
+
 }
 
 class BiTreeNode{

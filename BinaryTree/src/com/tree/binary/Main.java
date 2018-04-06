@@ -10,6 +10,9 @@ public class Main {
 		System.out.println("先序遍历");
 		tree.preOrderTraverse(tree.getRoot());
 		System.out.println();
+		System.out.println("先序非递归");
+		tree.preOrder(tree.getRoot());
+		System.out.println();
 		System.out.println("中序遍历");
 		tree.inOrderTraverse(tree.getRoot());
 		System.out.println();
